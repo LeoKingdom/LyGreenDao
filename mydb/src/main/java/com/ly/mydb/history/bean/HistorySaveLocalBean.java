@@ -1,6 +1,5 @@
 package com.ly.mydb.history.bean;
 
-import com.google.android.gms.maps.model.LatLng;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;

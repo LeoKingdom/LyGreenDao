@@ -13,12 +13,18 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class MyLatLng {
+    @Id(autoincrement = true)
+    private long id;
+    private String listId;
     private String deviceId;
     private double lat;
     private double lng;
     private String address;
-    @Generated(hash = 103225875)
-    public MyLatLng(String deviceId, double lat, double lng, String address) {
+    @Generated(hash = 993971097)
+    public MyLatLng(long id, String listId, String deviceId, double lat, double lng,
+            String address) {
+        this.id = id;
+        this.listId = listId;
         this.deviceId = deviceId;
         this.lat = lat;
         this.lng = lng;
@@ -26,6 +32,18 @@ public class MyLatLng {
     }
     @Generated(hash = 1862737912)
     public MyLatLng() {
+    }
+    public long getId() {
+        return this.id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    public String getListId() {
+        return this.listId;
+    }
+    public void setListId(String listId) {
+        this.listId = listId;
     }
     public String getDeviceId() {
         return this.deviceId;
@@ -51,4 +69,5 @@ public class MyLatLng {
     public void setAddress(String address) {
         this.address = address;
     }
+   
 }
