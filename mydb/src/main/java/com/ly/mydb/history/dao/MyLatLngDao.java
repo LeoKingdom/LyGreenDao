@@ -16,7 +16,7 @@ import org.greenrobot.greendao.internal.DaoConfig;
 /**
  * DAO for table "MY_LAT_LNG".
 */
-public class MyLatLngDao extends AbstractDao<MyLatLng, Long> {
+public class MyLatLngDao extends AbstractDao<MyLatLng, Void> {
 
     public static final String TABLENAME = "MY_LAT_LNG";
 
@@ -25,12 +25,13 @@ public class MyLatLngDao extends AbstractDao<MyLatLng, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
-        public final static Property ListId = new Property(1, String.class, "listId", false, "LIST_ID");
+        public final static Property StartTime = new Property(0, String.class, "startTime", false, "START_TIME");
+        public final static Property EndTime = new Property(1, String.class, "endTime", false, "END_TIME");
         public final static Property DeviceId = new Property(2, String.class, "deviceId", false, "DEVICE_ID");
-        public final static Property Lat = new Property(3, double.class, "lat", false, "LAT");
-        public final static Property Lng = new Property(4, double.class, "lng", false, "LNG");
-        public final static Property Address = new Property(5, String.class, "address", false, "ADDRESS");
+        public final static Property ListId = new Property(3, String.class, "listId", false, "LIST_ID");
+        public final static Property Lat = new Property(4, double.class, "lat", false, "LAT");
+        public final static Property Lng = new Property(5, double.class, "lng", false, "LNG");
+        public final static Property Address = new Property(6, String.class, "address", false, "ADDRESS");
     }
 
 
@@ -46,12 +47,13 @@ public class MyLatLngDao extends AbstractDao<MyLatLng, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"MY_LAT_LNG\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
-                "\"LIST_ID\" TEXT," + // 1: listId
+                "\"START_TIME\" TEXT," + // 0: startTime
+                "\"END_TIME\" TEXT," + // 1: endTime
                 "\"DEVICE_ID\" TEXT," + // 2: deviceId
-                "\"LAT\" REAL NOT NULL ," + // 3: lat
-                "\"LNG\" REAL NOT NULL ," + // 4: lng
-                "\"ADDRESS\" TEXT);"); // 5: address
+                "\"LIST_ID\" TEXT," + // 3: listId
+                "\"LAT\" REAL NOT NULL ," + // 4: lat
+                "\"LNG\" REAL NOT NULL ," + // 5: lng
+                "\"ADDRESS\" TEXT);"); // 6: address
     }
 
     /** Drops the underlying database table. */
@@ -63,95 +65,112 @@ public class MyLatLngDao extends AbstractDao<MyLatLng, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, MyLatLng entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
  
-        String listId = entity.getListId();
-        if (listId != null) {
-            stmt.bindString(2, listId);
+        String startTime = entity.getStartTime();
+        if (startTime != null) {
+            stmt.bindString(1, startTime);
+        }
+ 
+        String endTime = entity.getEndTime();
+        if (endTime != null) {
+            stmt.bindString(2, endTime);
         }
  
         String deviceId = entity.getDeviceId();
         if (deviceId != null) {
             stmt.bindString(3, deviceId);
         }
-        stmt.bindDouble(4, entity.getLat());
-        stmt.bindDouble(5, entity.getLng());
+ 
+        String listId = entity.getListId();
+        if (listId != null) {
+            stmt.bindString(4, listId);
+        }
+        stmt.bindDouble(5, entity.getLat());
+        stmt.bindDouble(6, entity.getLng());
  
         String address = entity.getAddress();
         if (address != null) {
-            stmt.bindString(6, address);
+            stmt.bindString(7, address);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, MyLatLng entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
  
-        String listId = entity.getListId();
-        if (listId != null) {
-            stmt.bindString(2, listId);
+        String startTime = entity.getStartTime();
+        if (startTime != null) {
+            stmt.bindString(1, startTime);
+        }
+ 
+        String endTime = entity.getEndTime();
+        if (endTime != null) {
+            stmt.bindString(2, endTime);
         }
  
         String deviceId = entity.getDeviceId();
         if (deviceId != null) {
             stmt.bindString(3, deviceId);
         }
-        stmt.bindDouble(4, entity.getLat());
-        stmt.bindDouble(5, entity.getLng());
+ 
+        String listId = entity.getListId();
+        if (listId != null) {
+            stmt.bindString(4, listId);
+        }
+        stmt.bindDouble(5, entity.getLat());
+        stmt.bindDouble(6, entity.getLng());
  
         String address = entity.getAddress();
         if (address != null) {
-            stmt.bindString(6, address);
+            stmt.bindString(7, address);
         }
     }
 
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+    public Void readKey(Cursor cursor, int offset) {
+        return null;
     }    
 
     @Override
     public MyLatLng readEntity(Cursor cursor, int offset) {
         MyLatLng entity = new MyLatLng( //
-            cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // listId
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // startTime
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // endTime
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // deviceId
-            cursor.getDouble(offset + 3), // lat
-            cursor.getDouble(offset + 4), // lng
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // address
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // listId
+            cursor.getDouble(offset + 4), // lat
+            cursor.getDouble(offset + 5), // lng
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // address
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, MyLatLng entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
-        entity.setListId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setStartTime(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setEndTime(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setDeviceId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setLat(cursor.getDouble(offset + 3));
-        entity.setLng(cursor.getDouble(offset + 4));
-        entity.setAddress(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setListId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setLat(cursor.getDouble(offset + 4));
+        entity.setLng(cursor.getDouble(offset + 5));
+        entity.setAddress(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override
-    protected final Long updateKeyAfterInsert(MyLatLng entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected final Void updateKeyAfterInsert(MyLatLng entity, long rowId) {
+        // Unsupported or missing PK type
+        return null;
     }
     
     @Override
-    public Long getKey(MyLatLng entity) {
-        if(entity != null) {
-            return entity.getId();
-        } else {
-            return null;
-        }
+    public Void getKey(MyLatLng entity) {
+        return null;
     }
 
     @Override
     public boolean hasKey(MyLatLng entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        // TODO
+        return false;
     }
 
     @Override

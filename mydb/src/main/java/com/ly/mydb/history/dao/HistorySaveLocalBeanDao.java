@@ -16,7 +16,7 @@ import org.greenrobot.greendao.internal.DaoConfig;
 /**
  * DAO for table "HISTORY_SAVE_LOCAL_BEAN".
 */
-public class HistorySaveLocalBeanDao extends AbstractDao<HistorySaveLocalBean, Long> {
+public class HistorySaveLocalBeanDao extends AbstractDao<HistorySaveLocalBean, Void> {
 
     public static final String TABLENAME = "HISTORY_SAVE_LOCAL_BEAN";
 
@@ -25,11 +25,10 @@ public class HistorySaveLocalBeanDao extends AbstractDao<HistorySaveLocalBean, L
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
-        public final static Property DeviceId = new Property(1, String.class, "deviceId", false, "DEVICE_ID");
-        public final static Property Date = new Property(2, String.class, "date", false, "DATE");
-        public final static Property StartDate = new Property(3, String.class, "startDate", false, "START_DATE");
-        public final static Property EndDate = new Property(4, String.class, "endDate", false, "END_DATE");
+        public final static Property DeviceId = new Property(0, String.class, "deviceId", false, "DEVICE_ID");
+        public final static Property Date = new Property(1, String.class, "date", false, "DATE");
+        public final static Property StartDate = new Property(2, String.class, "startDate", false, "START_DATE");
+        public final static Property EndDate = new Property(3, String.class, "endDate", false, "END_DATE");
     }
 
 
@@ -45,11 +44,10 @@ public class HistorySaveLocalBeanDao extends AbstractDao<HistorySaveLocalBean, L
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"HISTORY_SAVE_LOCAL_BEAN\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
-                "\"DEVICE_ID\" TEXT," + // 1: deviceId
-                "\"DATE\" TEXT," + // 2: date
-                "\"START_DATE\" TEXT," + // 3: startDate
-                "\"END_DATE\" TEXT);"); // 4: endDate
+                "\"DEVICE_ID\" TEXT," + // 0: deviceId
+                "\"DATE\" TEXT," + // 1: date
+                "\"START_DATE\" TEXT," + // 2: startDate
+                "\"END_DATE\" TEXT);"); // 3: endDate
     }
 
     /** Drops the underlying database table. */
@@ -61,99 +59,92 @@ public class HistorySaveLocalBeanDao extends AbstractDao<HistorySaveLocalBean, L
     @Override
     protected final void bindValues(DatabaseStatement stmt, HistorySaveLocalBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
  
         String deviceId = entity.getDeviceId();
         if (deviceId != null) {
-            stmt.bindString(2, deviceId);
+            stmt.bindString(1, deviceId);
         }
  
         String date = entity.getDate();
         if (date != null) {
-            stmt.bindString(3, date);
+            stmt.bindString(2, date);
         }
  
         String startDate = entity.getStartDate();
         if (startDate != null) {
-            stmt.bindString(4, startDate);
+            stmt.bindString(3, startDate);
         }
  
         String endDate = entity.getEndDate();
         if (endDate != null) {
-            stmt.bindString(5, endDate);
+            stmt.bindString(4, endDate);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, HistorySaveLocalBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
  
         String deviceId = entity.getDeviceId();
         if (deviceId != null) {
-            stmt.bindString(2, deviceId);
+            stmt.bindString(1, deviceId);
         }
  
         String date = entity.getDate();
         if (date != null) {
-            stmt.bindString(3, date);
+            stmt.bindString(2, date);
         }
  
         String startDate = entity.getStartDate();
         if (startDate != null) {
-            stmt.bindString(4, startDate);
+            stmt.bindString(3, startDate);
         }
  
         String endDate = entity.getEndDate();
         if (endDate != null) {
-            stmt.bindString(5, endDate);
+            stmt.bindString(4, endDate);
         }
     }
 
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+    public Void readKey(Cursor cursor, int offset) {
+        return null;
     }    
 
     @Override
     public HistorySaveLocalBean readEntity(Cursor cursor, int offset) {
         HistorySaveLocalBean entity = new HistorySaveLocalBean( //
-            cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // deviceId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // date
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // startDate
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // endDate
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // deviceId
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // date
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // startDate
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // endDate
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, HistorySaveLocalBean entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
-        entity.setDeviceId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setDate(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setStartDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setEndDate(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setDeviceId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setDate(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setStartDate(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setEndDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override
-    protected final Long updateKeyAfterInsert(HistorySaveLocalBean entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected final Void updateKeyAfterInsert(HistorySaveLocalBean entity, long rowId) {
+        // Unsupported or missing PK type
+        return null;
     }
     
     @Override
-    public Long getKey(HistorySaveLocalBean entity) {
-        if(entity != null) {
-            return entity.getId();
-        } else {
-            return null;
-        }
+    public Void getKey(HistorySaveLocalBean entity) {
+        return null;
     }
 
     @Override
     public boolean hasKey(HistorySaveLocalBean entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        // TODO
+        return false;
     }
 
     @Override

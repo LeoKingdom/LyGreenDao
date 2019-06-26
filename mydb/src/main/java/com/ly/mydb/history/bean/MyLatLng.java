@@ -13,19 +13,20 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class MyLatLng {
-    @Id(autoincrement = true)
-    private long id;
-    private String listId;
+    private String startTime;
+    private String endTime;
     private String deviceId;
+    private String listId;
     private double lat;
     private double lng;
     private String address;
-    @Generated(hash = 993971097)
-    public MyLatLng(long id, String listId, String deviceId, double lat, double lng,
-            String address) {
-        this.id = id;
-        this.listId = listId;
+    @Generated(hash = 1284658248)
+    public MyLatLng(String startTime, String endTime, String deviceId,
+            String listId, double lat, double lng, String address) {
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.deviceId = deviceId;
+        this.listId = listId;
         this.lat = lat;
         this.lng = lng;
         this.address = address;
@@ -33,23 +34,29 @@ public class MyLatLng {
     @Generated(hash = 1862737912)
     public MyLatLng() {
     }
-    public long getId() {
-        return this.id;
+    public String getStartTime() {
+        return this.startTime;
     }
-    public void setId(long id) {
-        this.id = id;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
-    public String getListId() {
-        return this.listId;
+    public String getEndTime() {
+        return this.endTime;
     }
-    public void setListId(String listId) {
-        this.listId = listId;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
     public String getDeviceId() {
         return this.deviceId;
     }
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+    public String getListId() {
+        return this.listId;
+    }
+    public void setListId(String listId) {
+        this.listId = listId;
     }
     public double getLat() {
         return this.lat;
@@ -69,5 +76,6 @@ public class MyLatLng {
     public void setAddress(String address) {
         this.address = address;
     }
+
    
 }
